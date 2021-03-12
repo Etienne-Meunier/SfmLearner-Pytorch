@@ -59,7 +59,8 @@ def main():
 
         h,w,_ = img.shape
         if (not args.no_resize) and (h != args.img_height or w != args.img_width):
-            img = np.array(Image.fromarray(img).imresize((args.img_height, args.img_width)))
+            #img = np.array(Image.fromarray(img).imresize((args.img_height, args.img_width)))
+            img = np.array(Image.fromarray(img).resize((args.img_width, args.img_height)))
         img = np.transpose(img, (2, 0, 1))
 
         tensor_img = torch.from_numpy(img.astype(np.float32)).unsqueeze(0)
@@ -68,10 +69,10 @@ def main():
         output = disp_net(tensor_img)[0]
 
         file_path, file_ext = file.relpath(args.dataset_dir).splitext()
-        print(file_path)
-        print(file_path.splitall())
+        #print(file_path)
+        #print(file_path.splitall())
         file_name = '-'.join(file_path.splitall()[1:])
-        print(file_name)
+        #print(file_name)
 
         if args.output_disp:
             disp = (255*tensor2array(output, max_value=None, colormap='bone')).astype(np.uint8)
